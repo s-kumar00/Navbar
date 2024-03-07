@@ -21,15 +21,15 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/Navbar/about",
+        path: "/about",
         element: <About />,
       },
       {
-        path: "/Navbar/contact",
+        path: "/contact",
         element: <Contact />,
       },
       {
-        path: "/Navbar/shop",
+        path: "/shop",
         element: <Shop />,
       },
       {
