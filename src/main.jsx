@@ -21,19 +21,19 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/about",
+        path: "/Navbar/about",
         element: <About />,
       },
       {
-        path: "/contact",
+        path: "/Navbar/contact",
         element: <Contact />,
       },
       {
-        path: "/shop",
+        path: "/Navbar/shop",
         element: <Shop />,
       },
       {
-        path: "/cart",
+        path: "/Navbar/cart",
         element: <Cart />,
       },
     ],
