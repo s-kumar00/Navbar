@@ -15,7 +15,7 @@ const Navbar = ({ containerStyles, toggleMenu }) => {
         </div>
       </NavLink>
       <NavLink
-        to={"/about"}
+        to={"/Navbar/about"}
         onClick={toggleMenu}
         className={({ isActive }) => (isActive ? "active_link" : "")}
       >
@@ -24,7 +24,7 @@ const Navbar = ({ containerStyles, toggleMenu }) => {
         </div>
       </NavLink>
       <NavLink
-        to={"/contact"}
+        to={"/Navbar/contact"}
         onClick={toggleMenu}
         className={({ isActive }) => (isActive ? "active_link" : "")}
       >
