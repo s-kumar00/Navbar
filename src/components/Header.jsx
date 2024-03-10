@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import logo2 from "../assets/logo2.svg"
+import logo2 from "../assets/logo2.svg";
 import Navbar from "./Navbar";
 import { MdClose, MdMenu } from "react-icons/md";
 import { FaOpencart } from "react-icons/fa";
@@ -12,6 +12,7 @@ import useDarkSide from "../Hook/UseDarkSide";
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
   const [colorTheme, setTheme] = useDarkSide();
+
   const [isLightMode, setIsLightMode] = useState(
     colorTheme === "light" ? true : false
   );
@@ -82,12 +83,13 @@ const Header = () => {
               )}
             </button>
 
-            <button
+            <Link
+              to="/login"
               className={"btn_secondary_rounded flexCenter gap-x-2 medium-16"}
             >
               <RxPerson className={"text-1xl font-bold"} />
               Login
-            </button>
+            </Link>
           </div>
         </div>
       </div>
