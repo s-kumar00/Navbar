@@ -20,7 +20,6 @@ const ForgetPassword = () => {
   const [email, setEmail] = useState(null);
   const navigate = useNavigate();
 
-
   const handleOtpChange = (index, value) => {
     let newOtpValue = otpValue;
     newOtpValue =
@@ -30,12 +29,12 @@ const ForgetPassword = () => {
     setOtpValue(newOtpValue);
   };
 
-  const handleEmail = async(e) => {
+  const handleEmail = async (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     try {
-      toast.warning("OTP is in the way", toastOptions)
+      toast.warning("OTP is in the way", toastOptions);
       const response = await emailRoute({ email });
       if (response.data.alert) {
         setStep(step + 1);
@@ -49,7 +48,7 @@ const ForgetPassword = () => {
     }
   };
 
-  const handleOtpVerify = async(e) => {
+  const handleOtpVerify = async (e) => {
     e.preventDefault();
     try {
       const response = await otpVerifyRoute({ email, otpValue });
@@ -62,9 +61,9 @@ const ForgetPassword = () => {
     } catch (err) {
       toast.error(err.message, toastOptions);
     }
-  }
+  };
 
-  const handleChangePassword = async(e) => {
+  const handleChangePassword = async (e) => {
     e.preventDefault();
     const form = e.target;
     const password = form.password.value;
@@ -83,7 +82,7 @@ const ForgetPassword = () => {
     } catch (error) {
       toast.error(error.message, toastOptions);
     }
-  }
+  };
 
   const handleResendOtp = async (e) => {
     e.preventDefault();
@@ -100,14 +99,14 @@ const ForgetPassword = () => {
     }
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (step === 1) {
-        handleEmail(e) 
+      handleEmail(e);
     } else if (step === 2) {
-      handleOtpVerify(e)
+      handleOtpVerify(e);
     } else {
-      handleChangePassword(e)
+      handleChangePassword(e);
     }
   };
 
@@ -116,22 +115,22 @@ const ForgetPassword = () => {
       <div className="max_pad_container relative xs:top-48 ">
         <div className="border border-gray-100 shadow-sm p-8 dark:border-gray-90 dark:shadow-gray-800">
           <div className="flex flex-wrap gap-20">
-            <div className="w-1/3 ">
-              <div className="flex flex-col gap-y-10">
+            <div className="w-full sm:w-1/3">
+              <div className="flex sm:flex-col sm:gap-y-10 -mt-10 sm:m-auto">
                 <div
                   className={`w-full text-center px-6 ${
                     step > 1 ? "text-green-500" : "text-black"
                   }`}
                 >
                   <div className="bg-gray-300 rounded-lg flex items-center justify-center border border-gray-200">
-                    <div className="w-1/3 bg-transparent h-20 flex items-center justify-center icon-step">
+                    <div className="w-full bg-transparent h-10 flex items-center justify-center icon-step sm:w-1/3 sm:h-20">
                       {step > 1 ? (
                         <FaCheck className="text-3xl" />
                       ) : (
                         <MdOutlineMail className="text-3xl text-black" />
                       )}
                     </div>
-                    <div className="w-2/3 bg-gray-200 h-24 flex flex-col items-center justify-center px-1 rounded-r-lg body-step">
+                    <div className="w-2/3 bg-gray-200 h-24 flex-col items-center justify-center px-1 rounded-r-lg body-step hidden sm:flex">
                       <h2 className="font-bold text-sm">Email Verification</h2>
                       <p className="text-xs text-gray-600">
                         Fill the form to get OTP
@@ -145,17 +144,25 @@ const ForgetPassword = () => {
                   }`}
                 >
                   <div className="bg-gray-300 rounded-lg flex items-center justify-center border border-gray-200">
-                    <div className="w-1/3 bg-transparent h-20 flex items-center justify-center icon-step">
+                    <div className="w-full bg-transparent h-10 flex items-center justify-center icon-step sm:w-1/3 sm:h-20">
                       {step > 2 ? (
                         <FaCheck className="text-3xl" />
                       ) : (
                         <RiAccountCircleLine className="text-3xl text-black" />
                       )}
                     </div>
-                    <div className="w-2/3 bg-gray-200 h-24 flex flex-col items-center justify-center px-1 rounded-r-lg body-step">
+                    <div className="w-2/3 bg-gray-200 h-24 flex-col items-center justify-center px-1 rounded-r-lg body-step hidden sm:flex">
                       <h2 className="font-bold text-sm">Verify OTP</h2>
                       <p className="text-xs text-gray-600">
-                        Input the OTP sent to your email
+                        {`Input the OTP sent to your email `}
+                        {email === null ? (
+                          ""
+                        ) : (
+                          <>
+                            <br />
+                            {email}
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>
@@ -165,15 +172,15 @@ const ForgetPassword = () => {
                     step > 3 && "text-green-500"
                   }`}
                 >
-                  <div className="bg-gray-300 rounded-lg flex items-center justify-center border border-gray-200">
-                    <div className="w-1/3 bg-transparent h-20 flex items-center justify-center icon-step">
+                  <div className="bg-gray-300 rounded-lg flex items-center justify-center border border-gray-200 ">
+                    <div className="w-full bg-transparent h-10 flex items-center justify-center icon-step sm:w-1/3 sm:h-20">
                       {step > 3 ? (
                         <FaCheck className="text-3xl" />
                       ) : (
                         <MdLockReset className="text-3xl text-black" />
                       )}
                     </div>
-                    <div className="w-2/3 bg-gray-200 h-24 flex flex-col items-center justify-center px-1 rounded-r-lg body-step">
+                    <div className="w-2/3 bg-gray-200 h-24 flex-col items-center justify-center px-1 rounded-r-lg body-step hidden sm:flex">
                       <h2 className="font-bold text-sm">Reset The Password</h2>
                       <p className="text-xs text-gray-600">Finish it!</p>
                     </div>
@@ -182,7 +189,7 @@ const ForgetPassword = () => {
               </div>
             </div>
 
-            <div className="w-1/3 mt-10 ml-20 items-center p-5">
+            <div className="w-full items-center sm:p-5 sm:w-1/3 sm:mt-10 sm:ml-20">
               <form onSubmit={handleSubmit} className="my-5">
                 <div className="flex flex-col space-y-5">
                   {step === 1 && (
