@@ -8,10 +8,14 @@ import { FaOpencart } from "react-icons/fa";
 import { RxPerson } from "react-icons/rx";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import useDarkSide from "../Hook/UseDarkSide";
+import { useSelector } from "react-redux";
+import Profile from "./Profile";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
   const [colorTheme, setTheme] = useDarkSide();
+
+  const {currentUser} = useSelector((state) => state.user);
 
   const [isLightMode, setIsLightMode] = useState(
     colorTheme === "light" ? true : false
@@ -59,8 +63,8 @@ const Header = () => {
           toggleMenu={toggleMenu}
           containerStyles={`${
             menuOpened
-              ? "flex items-start w-64 flex-col gap-y-10 fixed top-20 -left-[0%] p-10 bg-white rounded-2xl shadow-md medium-16 ring-1 ring-slate-900/5 transition-all duration-300 justify-between items-center dark:bg-gray-50 dark:text-white"
-              : "flex flex-start w-64 flex-col gap-y-10 fixed top-20 -left-[100%] p-10 bg-white rounded-2xl shadow-md medium-16 ring-1 ring-slate-900/5 transition-all duration-3000"
+              ? "fixed flex flex-col z-50 -left-[0%] top-20 gap-y-5 p-5 bg-white rounded-2xl shadow-md w-44 dark:bg-gray-700 transition-all duration-3000"
+              : "fixed flex flex-col z-50 -left-[100%] top-20 gap-y-5 p-5 bg-white rounded-2xl shadow-md w-44 dark:bg-gray-700 transition-all duration-3000"
           }`}
         />
 
@@ -83,13 +87,17 @@ const Header = () => {
               )}
             </button>
 
-            <Link
-              to="/login"
-              className={"btn_secondary_rounded flexCenter gap-x-2 medium-16"}
-            >
-              <RxPerson className={"text-1xl font-bold"} />
-              Login
-            </Link>
+            {!currentUser ? (
+              <Link
+                to="/login"
+                className={"btn_secondary_rounded flexCenter gap-x-2 medium-16"}
+              >
+                <RxPerson className={"text-1xl font-bold"} />
+                Login
+              </Link>
+            ) : (
+              <Profile />
+            )}
           </div>
         </div>
       </div>

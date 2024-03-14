@@ -15,12 +15,13 @@ import UploadItems from "./Admin/UploadItems";
 import ManageItems from "./Admin/ManageItems";
 import EditItems from "./Admin/EditItems";
 import Auth from "./PopUpModel/Auth.jsx";
-import ForgetPasswordPopUp from "./PopUpModel/ForgetPasswordPopUp.jsx";
+import ForgetPassword from "./PopUpModel/ForgetPassword.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { store , persistor} from "./redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import PrivateRoute from "./Api/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/shop",
-        element: <Shop />,
+        element: <PrivateRoute><Shop /></PrivateRoute>,
       },
       {
         path: "/cart",
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/forget-password",
-        element: <ForgetPasswordPopUp />,
+        element: <ForgetPassword />,
       },
     ],
   },

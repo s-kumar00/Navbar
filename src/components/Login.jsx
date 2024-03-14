@@ -5,11 +5,13 @@ import { AiOutlineGoogle } from "react-icons/ai";
 import { DiGithubBadge } from "react-icons/di";
 import { FaLinkedin } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa6";
-import { signInFailure, signInSuccess, signInStart } from "../redux/userSlice";
-import { useDispatch} from "react-redux";
-import { loginRoute } from "../Api/authApi";
+import { signInFailure, signInSuccess} from "../redux/userSlice";
+import { useDispatch } from "react-redux";
+import { OAuthRoute, loginRoute } from "../Api/authApi";
 import { toastOptions } from "../utils/utility";
 import { toast } from "react-toastify";
+import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
+import { app } from "../firebase";
 
 const Login = ({ handleToggle }) => {
   const [formData, setFormData] = useState({});
@@ -25,14 +27,36 @@ const Login = ({ handleToggle }) => {
     const email = formData.email;
     const password = formData.password;
     try {
-      dispatch(signInStart());
       const dataRes = await loginRoute({ email, password });
       if (dataRes.data.alert) {
-        console.log("signIn");
         dispatch(signInSuccess(dataRes.data));
         navigate("/");
-        toast.success("Login Success", toastOptions); 
-      }else{
+        toast.success("Login Success", toastOptions);
+      } else {
+        dispatch(signInFailure(dataRes.data));
+        toast.error(dataRes.data.message, toastOptions);
+      }
+    } catch (error) {
+      dispatch(signInFailure(error));
+      toast.error(error.message, toastOptions);
+    }
+  };
+
+  const handleGoogleClick = async () => {
+    try {
+      const provider =await new GoogleAuthProvider();
+      const auth =await getAuth(app);
+      const result = await signInWithPopup(auth, provider);
+      const dataRes = await OAuthRoute({
+        displayName: result.user.displayName,
+        email: result.user.email,
+        photoURL: result.user.photoURL,
+      });
+      if (dataRes.data.alert) {
+        dispatch(signInSuccess(dataRes.data));
+        navigate("/");
+        toast.success("Login Success", toastOptions);
+      } else {
         dispatch(signInFailure(dataRes.data));
         toast.error(dataRes.data.message, toastOptions);
       }
@@ -125,8 +149,12 @@ const Login = ({ handleToggle }) => {
         </p>
       </div>
       <div className="flex flex-row justify-center items-center gap-8 text-2xl text-blue-600 cursor-pointer">
-        <AiOutlineGoogle />
-        <DiGithubBadge />
+        <button onClick={handleGoogleClick}>
+          <AiOutlineGoogle />
+        </button>
+        <button onClick={handleGoogleClick}>
+          <DiGithubBadge />
+        </button>
         <FaLinkedin />
         <FaFacebook />
       </div>
